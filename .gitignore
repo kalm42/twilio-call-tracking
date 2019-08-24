@@ -11,6 +11,9 @@ node_modules/
 # Optional npm cache directory
 .npm
 
+# Coverage directory used by tools like istanbul
+coverage
+
 # Optional eslint cache
 .eslintcache
 
