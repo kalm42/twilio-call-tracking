@@ -1,16 +1,24 @@
 const callController = require("../controllers/callController")
+const firebase = require("../firebase")
 
 test("should call me", () => {
+  firebase.incrementCounter = jest.fn()
   const send = jest.fn()
   const set = jest.fn()
   const res = {
     send,
     set,
   }
-  callController.speak({}, res)
+  const req = {
+    body: {
+      Called: "+15551231234",
+    },
+  }
+  callController.speak(req, res)
   expect(send.mock.calls).toHaveLength(1)
+  expect(firebase.incrementCounter.mock.calls).toHaveLength(1)
   expect(send.mock.calls[0][0]).toBe(
-    '<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="alice">Connecting you to Kyle now.</Say><Dial action="/goodbye/">+19512127174</Dial></Response>',
+    '<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="alice">Connecting you to Kyle.</Say><Dial action="/goodbye/">+19512127174</Dial></Response>',
   )
 })
 
